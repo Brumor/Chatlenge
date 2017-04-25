@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "160407858359",
+    "firebase_url": "https://chatlenge-a5069.firebaseio.com",
+    "project_id": "chatlenge-a5069",
+    "storage_bucket": "chatlenge-a5069.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160407858359:android:62e35d48b8462f94",
+        "android_client_info": {
+          "package_name": "com.brumor.chatlenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160407858359-jlgrtjoev5deh21aeq58nn86i3o76ku2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brumor.chatlenge",
+            "certificate_hash": "7d872c290489175f6c42285793e594f95c35ec25"
+          }
+        },
+        {
+          "client_id": "160407858359-2m8jbrga7fd7imanjean8msagg3fqcmo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3-4kHpkDH25F0fcRQVnWpOvkiAP-VGCo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160407858359-2m8jbrga7fd7imanjean8msagg3fqcmo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
