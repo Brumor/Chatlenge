@@ -37,6 +37,8 @@ public class ConversationActivity extends AppCompatActivity {
     ChildEventListener convChildEventListener;
     ConversationAdapter conversationAdapter;
 
+    final UserItem currentUser = ChatListActivity.currentUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +60,9 @@ public class ConversationActivity extends AppCompatActivity {
 
 
         ab.setTitle(talkingUserName);
-        ConversationDbRef = UserDbRef.child(currentuser.getUid() + "/conversations/" + talkingUserId );
-        OtherConversationDbRef = UserDbRef.child(talkingUserId + "/conversations/" + currentuser.getUid());
-        OtherChatlistDbRef = UserDbRef.child(talkingUserId + "/forChatList/" + currentuser.getUid());
+        ConversationDbRef = UserDbRef.child(currentUser.getUser_id() + "/conversations/" + talkingUserId );
+        OtherConversationDbRef = UserDbRef.child(talkingUserId + "/conversations/" + currentUser.getUser_id());
+        OtherChatlistDbRef = UserDbRef.child(talkingUserId + "/forChatList/" + currentUser.getUser_id());
 
         conversationListView = (ListView) findViewById(R.id.conversation_listview);
 
@@ -68,7 +70,7 @@ public class ConversationActivity extends AppCompatActivity {
 
         final List<ChatlengeMessage> chatlengeMessageList = new ArrayList<>();
 
-        conversationAdapter = new ConversationAdapter(this, R.layout.chatlenge_message, chatlengeMessageList, currentuser.getUid());
+        conversationAdapter = new ConversationAdapter(this, R.layout.chatlenge_message, chatlengeMessageList, currentUser.getUser_id());
 
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,9 +84,9 @@ public class ConversationActivity extends AppCompatActivity {
 
     public void sendMessage(View view) {
 
-        ChatlengeMessage Message = new ChatlengeMessage(messageEditText.getText().toString(), ChatListActivity.currentuser.getUid(), ChatListActivity.currentuser.getDisplayName(), talkingUserId, talkingUserName, System.currentTimeMillis());
-        Conversation conversation = new Conversation(talkingUserId, talkingUserName, currentuser.getUid(), currentuser.getDisplayName(), messageEditText.getText().toString());
-        Conversation otherConversation = new Conversation( currentuser.getUid(), currentuser.getDisplayName(), talkingUserId, talkingUserName, messageEditText.getText().toString());
+        ChatlengeMessage Message = new ChatlengeMessage(messageEditText.getText().toString(), currentUser.getUser_id(), currentUser.getUser_name(), talkingUserId, talkingUserName, System.currentTimeMillis());
+        Conversation conversation = new Conversation(talkingUserId, talkingUserName, currentUser.getUser_id(), currentUser.getUser_name(), messageEditText.getText().toString());
+        Conversation otherConversation = new Conversation( currentUser.getUser_id(), currentUser.getUser_name(), talkingUserId, talkingUserName, messageEditText.getText().toString());
 
 
         ConversationDbRef.push().setValue(Message);
@@ -92,6 +94,10 @@ public class ConversationActivity extends AppCompatActivity {
 
         ChatlistDbRef.child(talkingUserId).setValue(conversation);
         OtherChatlistDbRef.setValue(otherConversation);
+
+        int i = 1;
+
+        UserDbRef.child(currentuser.getUid()).child("user_score").setValue(i);
 
         messageEditText.setText("");
     }
@@ -136,8 +142,12 @@ public class ConversationActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+
+
         super.onStop();
         detachDatabaseReadListener();
+
+
     }
 
     @Override

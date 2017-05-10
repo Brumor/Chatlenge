@@ -17,8 +17,7 @@ import java.util.List;
 
 public class ConversationAdapter extends ArrayAdapter<ChatlengeMessage> {
 
-    String current_user_id = ChatListActivity.currentuser.getUid();
-    String current_user_name = ChatListActivity.currentuser.getDisplayName();
+    UserItem current_user = ChatListActivity.currentUser;
     String message_sender_id;
     LinearLayout messageLinearLayout;
     TextView messageTextview;
@@ -48,7 +47,7 @@ public class ConversationAdapter extends ArrayAdapter<ChatlengeMessage> {
 
 
 
-        /*if ( message_sender_id == current_user_id) {
+        if ( message_sender_id != current_user.getUser_id()) {
 
             messageLinearLayout = (LinearLayout) convertView.findViewById(R.id.user_message_LinearLayout);
             messageLinearLayout.setVisibility(View.VISIBLE);
@@ -57,12 +56,12 @@ public class ConversationAdapter extends ArrayAdapter<ChatlengeMessage> {
 
             convertView.findViewById(R.id.other_message_LinearLayout).setVisibility(View.INVISIBLE);
 
-        } else { */
+        } else {
 
             messageTextview = (TextView) convertView.findViewById(R.id.other_message_TextView);
             usernameTextView = (TextView) convertView.findViewById(R.id.other_name_TextView);
 
-        //}
+        }
 
         messageTextview.setText(currentMessage.getMessage_content());
         usernameTextView.setText(currentMessage.getFrom_user_name());

@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,8 @@ public class ChatListActivity extends AppCompatActivity {
     public static DatabaseReference ChatlistDbRef;
     public static FirebaseDatabase ChatFbDb;
     ChildEventListener ChatListEventListener;
-    UserItem user = new UserItem(null, null, null);
+
+    public static UserItem currentUser;
 
     ChatlengeListAdapter ChatListAdapter;
 
@@ -56,8 +58,8 @@ public class ChatListActivity extends AppCompatActivity {
 
                     UserDbRef = ChatFbDb.getReference().child("users/");
                     ChatlistDbRef = ChatFbDb.getReference().child("users/" + currentuser.getUid() + "/forChatList" );
-                    user = new UserItem(currentuser.getUid(), currentuser.getDisplayName(), currentuser.getEmail());
-                    onSignedInInitialize(user);
+                    currentUser = new UserItem(currentuser.getUid(), currentuser.getDisplayName(), currentuser.getEmail(), 0);
+                    onSignedInInitialize(currentUser);
 
 
                 } else {
@@ -141,11 +143,26 @@ public class ChatListActivity extends AppCompatActivity {
         onAttachDbReadListener(user);
     }
 
-    private void onAttachDbReadListener(UserItem user) {
+    private void onAttachDbReadListener(final UserItem user) {
 
-        if (UserDbRef.child(currentuser.getUid()) == null) {
-            UserDbRef.child(currentuser.getUid()).setValue(user);
-        }
+        UserDbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.hasChild(user.getUser_id())) {
+
+                    UserDbRef.child(currentuser.getUid()).setValue(user);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+
+        });
+
 
         if (ChatListEventListener == null) {
             ChatListEventListener = new ChildEventListener() {
